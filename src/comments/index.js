@@ -1,16 +1,51 @@
 const cors = require('cors')
 const express = require("express")
+const { MongoClient, ObjectId } = require('mongodb')
 const axios = require("axios").default
 
 const app = express()
 app.use(cors())
 app.use(express.json())
 const port = process.env.port || 5000
+const commentsCollectionName = `comments`
 
-const comments = []
+const connectToDatabase = async () => {
+    try {
+        const dbConnectionString = process.env.DBCONNECTIONSTRING
+        const dbName = process.env.DBNAME
+        if (!dbConnectionString || !dbName)
+            throw new Error("Environment variable for db connection string or db name not defined.")
+        
+        const url = `mongodb://${dbConnectionString}/${dbName}`
+        const client = new MongoClient(url)
+        await client.connect()
+        console.log('connected!')
+        return client.db(dbName)
+    }
+    catch(error) {
+        console.error(error.message)
+        return undefined
+    }
+}
 
 app.get('/', async (req, res) => {
-    return res.status(200).json(comments)
+    try {
+        const connection = await connectToDatabase()
+        if (!connection) {
+            throw new Error("Unable to connect to database.")
+        }
+
+        const collection = connection.collection(commentsCollectionName)
+        let comments = await collection
+            .find({})
+            .toArray()
+
+        return res.status(200).json(comments)
+    }
+    catch (error) {
+        console.error(error)
+        return res.status(500).json({"error": error.message})
+    }
 })
 
 app.post('/', async (req, res) => {
@@ -29,13 +64,15 @@ app.post('/', async (req, res) => {
         if (!post) {
             return res.status(400).json({"msg": `Post with ID #${postId} not found!`})
         }
-        const comment = {
-            id: comments.length + 1,
-            postId,
-            message
+
+        const connection = await connectToDatabase()
+        if (!connection) {
+            throw new Error("Unable to connect to database.")
         }
-        comments.push(comment)
-        return res.status(201).json(comments)
+
+        const collection = connection.collection(commentsCollectionName)
+        const comment = await collection.insertOne(payload)
+        return res.status(201).json(comment)
     }
     catch (error) {
         console.error(error)
@@ -45,13 +82,20 @@ app.post('/', async (req, res) => {
 
 app.get('/:id', async (req, res) => {
     try {
-        const postId = parseInt(req.params['id'])
+        const postId = req.params['id']
         console.log(`Incoming request to return comments associated with post ID #${postId}`)
-        return res.status(200).json(comments.filter(c => c.postId === postId))
+        const connection = await connectToDatabase()
+        if (!connection) {
+            throw new Error("Unable to connect to database.")
+        }
+
+        const collection = connection.collection(commentsCollectionName)
+        const comments = await collection.find({postId: postId}).toArray()
+        return res.status(200).json(comments)
     }
     catch(error) {
         console.error(error)
-        return res.status(500).error({"error": error})
+        return res.status(500).json({"error": error.message})
     }
 })
 

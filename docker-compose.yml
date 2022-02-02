@@ -7,6 +7,10 @@ services:
       - 5000
     environment:
       - COMMENTS=comments
+      - DBCONNECTIONSTRING=mongo
+      - DBNAME=db
+    depends_on:
+      - mongo
     networks:
       - network
   
@@ -17,6 +21,10 @@ services:
       - 5000
     environment:
       - POSTS=posts
+      - DBCONNECTIONSTRING=mongo
+      - DBNAME=db
+    depends_on:
+      - mongo
     networks:
       - network
   
@@ -31,6 +39,17 @@ services:
     depends_on:
       - posts
       - comments
+    networks:
+      - network
+
+  mongo:
+    image: mongo:latest
+    environment:
+      # - MONGO_INITDB_ROOT_USERNAME=root
+      # - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+      - MONGO_INITDB_DATABASE=db
+    expose:
+      - 5000
     networks:
       - network
 
