@@ -41,7 +41,7 @@ So it's very similiar to how we have defined other services in the preivous tuto
 
 **IMPORTANT:** Create a new folder called **data** in the root directory of the repository before performing the steps.
 
-Perform the same steps as outlined in [Tutorial 2]() of this series and you should achieve the same results. Try shutting down the services using `docker-compose down` and fire up the system again. Your data should persist.
+Perform the same steps as outlined in [Tutorial 2](https://github.com/scalable-web-systems/docker-compose-gateway) of this series and you should achieve the same results. Try shutting down the services using `docker-compose down` and fire up the system again. Your data should persist.
 
 ## Conclusion
 After doing this tutorial, one should be to use MongoDB as a docker-compose service. Additionally, one should be able to use the npm **mongodb** package in their node applications to communicate with the mongodb server. 
