@@ -15,7 +15,7 @@ This tutorial is the third tutorial in the docker-compose series and focuses on 
 * Harder to completely uninstall
 * May cause compatibility issues
 
-Most of the popular databases have their Docker image available on the Docker Hub Image Registry. It's a lot more straighforward and easier to fire up a MongoDB container than to waste time configuring a local installation. Sometimes, we inadvertently install softwares for all users even if we need it for just ourselves. Some softwares get so deeply embedded in our system that it becomes a herculean task to completely wipe out the installation, if required. Furthermore, sometimes our system may not be compatible with the version of the database we want to use. With Docker, we don't have to worry about neither the compatibility issues nor any uninstallation hassle. All it takes is one command to obliterate a running database container.
+Most of the popular databases have their Docker image available on the Docker Hub Image Registry. It's a lot more straighforward and easier to fire up a MongoDB container, for example, than to waste time configuring a local installation. Sometimes, we inadvertently install softwares for all users even if we need it for just ourselves. Some softwares get so deeply embedded in our system that it becomes a herculean task to completely wipe out the installation, if required. Furthermore, sometimes our system may not be compatible with the version of the database we want to use. With Docker, we don't have to worry about neither the compatibility issues nor any uninstallation hassle. All it takes is one command to obliterate a running database container.
 
 ## Let's Look at the Code
 
