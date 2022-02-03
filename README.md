@@ -20,46 +20,32 @@ Most of the popular databases have their Docker image available on the Docker Hu
 ## Let's Look at the Code
 
 ### Docker Compose
-In the previous tutorial, we learned about how to use environment and depends_on attributes while defining a service. In this tutorial, we use that knowledge to introduce a new service **mongo** which uses a 3rd party image from the official DockerHub repository instead of relying on a local Dockerfile. Take a look at the following code snippet below:
+In the previous tutorial, we learned about how to use environment and depends_on attributes while defining a service. In this tutorial, we use that knowledge to introduce a new service **mongo** which uses a 3rd party image from the official Docker Hub repository instead of relying on a local Dockerfile. Take a look at the following code snippet below:
 
 ```
   mongo:
     image: mongo:latest
     environment:
-      # - MONGO_INITDB_ROOT_USERNAME=root
-      # - MONGO_INITDB_ROOT_PASSWORD=rootpassword
       - MONGO_INITDB_DATABASE=db
+    volumes:
+      - ./data:/data/db
     expose:
       - 5000
     networks:
       - network
 ```
 
-## Steps
-1. Fire up the system using `docker-compose up` or `docker-compose up -d` to run the system in detached mode.
-2. Tab over to PostMan and try accessing the GET `/posts/` endpoint. You should get the following output:
-![image](https://user-images.githubusercontent.com/7733516/151725182-196c1c10-a0a9-415e-9c76-8a4b33a1fb35.png)
-3. Now, try adding a new post by selecting POST from the dropdown and defining the correct payload. You should get the following output:
-![image](https://user-images.githubusercontent.com/7733516/151725336-bf893511-9afb-4efe-909f-5c439286866c.png)
-4. Now try grabbing the list of posts once more:
-![image](https://user-images.githubusercontent.com/7733516/151725411-2f6fd61a-d7e3-40e0-b5a3-6f75c17789ac.png)
-You'll see your newly added post with an empty comments list. That's because no comments for this post have been added yet. Let's add a new comment now.
-5. Set the method to POST and type `http://localhost:5000/comments/` in the url bar in POSTMAN. Define the payload for the comment in the body and pass in an invalid ID on purpose:
-![image](https://user-images.githubusercontent.com/7733516/151725570-0187a2ae-0cb6-48c0-bee0-6fb47f2d8694.png)
-Our **reverserproxy** service returns 500 status code because it in turn receives 404 from our comments service. Since we don't have any post with the id 3, our comment service throws 404. It interally communicates with our **posts** service through the private endpoint `/posts/:id` and pieces it together that no such post exists. Let's look at the logs. Tab over to your terminal window and type `docker-compose logs posts`:
-![image](https://user-images.githubusercontent.com/7733516/151725941-a8d78ab0-3150-4fcb-8d8b-7b473cd87102.png)
+So it's very similiar to how we have defined other services in the preivous tutorials. We expose port 5000 but don't make it known to the outside world. We set a configuration environment variable called **MONGO_INITDB_DATABASE** to **db**. This will be our database name. We attach this service to our network **network**. Note how inside of defining the `build` section, we just set the `image` property to **mongo:latest**. This pulls the latest version of the image named **mongo** from Docker Hub. One major difference between this service and our other services is that we define a new section here called **volumes**. Putting very succintly, we're simply telling docker compose to overwrite the contents of `/data/db` subdirectory of our **mongo** service container with the contents of the subdirectory `/data` on our local machine. `/data/db` is the place where MongoDB stores our data. By overwriting its contents, we make sure that the data is persisted even when we shut down our services.
 
-6. Now let's add a new comment for the post which we just created:
-![image](https://user-images.githubusercontent.com/7733516/151725769-2e8f65a5-5c25-479d-af18-bde9f9b04854.png)
-You should get a 200 status code back and should be able to view your newly added comment in the output.
-7. Let's try to get all the posts again:
-![image](https://user-images.githubusercontent.com/7733516/151725815-c55457f6-7f7f-406b-a381-dcff7aff381f.png)
-You should be able to see your post along with its newly added comment. But wait. How did our **posts** service know that there's a new comment on this post? Let's look at the logs for our **comments** service. Tab over to your terminal window and type `docker-compose logs comments`:
-![image](https://user-images.githubusercontent.com/7733516/151725978-390b0fc3-3511-4e4a-8396-b5243b9100c8.png)
-Below the verbose 404 stack trace from when we accessed the `/posts/` endpoint when there were no comments for the post, you will see the log message saying that there's been an incoming request to this private endpoint.
+## Steps
+
+**IMPORTANT:** Create a new folder called **data** in the root directory of the repository before performing the steps.
+
+Perform the same steps as outlined in [Tutorial 2]() of this series and you should achieve the same results. Try shutting down the services using `docker-compose down` and fire up the system again. Your data should persist.
 
 ## Conclusion
 After doing this tutorial, one should be to use MongoDB as a docker-compose service. Additionally, one should be able to use the npm **mongodb** package in their node applications to communicate with the mongodb server. 
+
 ### Links
 1. [Javascript Tutorial](https://www.w3schools.com/js/)
 2. [Npm](https://www.npmjs.com/)
