@@ -45,9 +45,9 @@ services:
   mongo:
     image: mongo:latest
     environment:
-      # - MONGO_INITDB_ROOT_USERNAME=root
-      # - MONGO_INITDB_ROOT_PASSWORD=rootpassword
       - MONGO_INITDB_DATABASE=db
+    volumes:
+      - ./data:/data/db
     expose:
       - 5000
     networks:
