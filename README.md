@@ -71,15 +71,15 @@ Next, we define a method called **runServer**. Here we invoked our **connectToDa
 
 Now let' look at a few function calls interspersed between the code:
 
-* `**connection**.collection(collectionName: string)` - A **Collection** object is defined by invoking the `collection` method on the database object. The collection name needs to be passed in as a string.
-* `**collection**.find({... search parameters})` - The **find** method is used to query a MongoDB collection. Search parameters are passed in as an object. For example, if we want to look up a post with title **UMass Amherst**, we'd write:
+* `connection.collection(collectionName: string)` - A **Collection** object is defined by invoking the `collection` method on the database object. The collection name needs to be passed in as a string.
+* `collection.find({... search parameters})` - The **find** method is used to query a MongoDB collection. Search parameters are passed in as an object. For example, if we want to look up a post with title **UMass Amherst**, we'd write:
 ```
 const collection = connection.collection("posts")
 collection.find({title: "UMass Amherst"})
 ```
 
 `.find` doesn't directly return an array of results. Instead it returns an iterable object called **WithCursor** that can be used to apply even more filters. To 
-convert the results into an array, we say `.toArray() on the iterable returned by `.find`. So the entire code snippet would look like:
+convert the results into an array, we say `.toArray()` on the iterable returned by `.find`. So the entire code snippet would look like:
 
 ```
 const collection = connection.collection("posts")
