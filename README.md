@@ -107,7 +107,7 @@ const comments = await (await axios.get(`http://${commentServiceName}:${port}/${
 
 ## Steps
 
-**IMPORTANT:** Create a new folder called **data** in the root directory of the repository before performing the steps.
+**IMPORTANT:** Create a new folder called **data** in the root directory of the cloned repository before performing the steps.
 
 Perform the same steps as outlined in [Tutorial 2](https://github.com/scalable-web-systems/docker-compose-gateway) of this series and you should achieve the same results. Try shutting down the services using `docker-compose down` and fire up the system again. Your data should persist.
 
