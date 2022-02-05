@@ -1,4 +1,5 @@
 # Tutorial on Docker Compose 3 | Mongo DB
+> **Author -** Ishaan Khurana, [LinkedIn](https://www.linkedin.com/in/ishaan-khurana-46968679/)
 
 ## Objective
 This tutorial is the third tutorial in the docker-compose series and focuses on persisting data using a database service. In this tutorial, we will use MongoDB for data storage. We'll be learning about how to use bind mounts in docker compose and how to use the **mongodb** npm library and its APIs in our node application to communicate with our Mongo database.
