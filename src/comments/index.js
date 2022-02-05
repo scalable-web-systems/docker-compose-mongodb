@@ -67,12 +67,7 @@ const runServer = async () => {
                 if (!post) {
                     return res.status(400).json({"msg": `Post with ID #${postId} not found!`})
                 }
-        
-                const connection = await connectToDatabase()
-                if (!connection) {
-                    throw new Error("Unable to connect to database.")
-                }
-        
+                
                 const collection = connection.collection(commentsCollectionName)
                 const comment = await collection.insertOne(payload)
                 return res.status(201).json(comment)
@@ -87,11 +82,7 @@ const runServer = async () => {
             try {
                 const postId = req.params['id']
                 console.log(`Incoming request to return comments associated with post ID #${postId}`)
-                const connection = await connectToDatabase()
-                if (!connection) {
-                    throw new Error("Unable to connect to database.")
-                }
-        
+=
                 const collection = connection.collection(commentsCollectionName)
                 const comments = await collection.find({postId: postId}).toArray()
                 return res.status(200).json(comments)
