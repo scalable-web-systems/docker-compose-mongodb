@@ -82,7 +82,7 @@ const runServer = async () => {
             try {
                 const postId = req.params['id']
                 console.log(`Incoming request to return comments associated with post ID #${postId}`)
-=
+
                 const collection = connection.collection(commentsCollectionName)
                 const comments = await collection.find({postId: postId}).toArray()
                 return res.status(200).json(comments)
