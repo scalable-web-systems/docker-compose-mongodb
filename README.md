@@ -32,12 +32,12 @@ In the previous tutorial, we learned about how to use environment and depends_on
     volumes:
       - ./data:/data/db
     expose:
-      - 5000
+      - 27017
     networks:
       - network
 ```
 
-So it's very similiar to how we have defined other services in the preivous tutorials. We expose port 5000 but don't make it known to the outside world. We set a configuration environment variable called **MONGO_INITDB_DATABASE** to **db**. This will be our database name. We attach this service to our network **network**. Note how inside of defining the `build` section, we just set the `image` property to **mongo:latest**. This pulls the latest version of the image named **mongo** from Docker Hub. One major difference between this service and our other services is that we define a new section here called **volumes**. Putting very succintly, we're simply telling docker compose to overwrite the contents of `/data/db` subdirectory of our **mongo** service container with the contents of the subdirectory `/data` on our local machine. `/data/db` is the place where MongoDB stores our data. By overwriting its contents, we make sure that the data is persisted even when we shut down our services.
+So it's very similiar to how we have defined other services in the preivous tutorials. We expose port 27017 but don't make it known to the outside world. We set a configuration environment variable called **MONGO_INITDB_DATABASE** to **db**. This will be our database name. We attach this service to our network **network**. Note how inside of defining the `build` section, we just set the `image` property to **mongo:latest**. This pulls the latest version of the image named **mongo** from Docker Hub. One major difference between this service and our other services is that we define a new section here called **volumes**. Putting very succintly, we're simply telling docker compose to overwrite the contents of `/data/db` subdirectory of our **mongo** service container with the contents of the subdirectory `/data` on our local machine. `/data/db` is the place where MongoDB stores our data. By overwriting its contents, we make sure that the data is persisted even when we shut down our services.
 
 ### src/posts/index.js (or src/comments/index.js)
 
