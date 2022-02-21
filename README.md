@@ -6,7 +6,7 @@ This tutorial is the third tutorial in the docker-compose series and focuses on 
 
 ## Prerequisites
 ##### Side note: There are links attached to the bottom of this tutorial for our readers who may not be familiar with the technologies used here.
-1. The reader should have completed the [first](https://github.com/scalable-web-systems/docker-compose-node) and [second](https://github.com/scalable-web-systems/docker-compose-gateway) of this series. 
+1. The reader should have completed the [first](https://github.com/scalable-web-systems/docker-compose-node) and [second](https://github.com/scalable-web-systems/docker-compose-gateway) tutorial of this series. 
 2. The reader should be familiar with axios, asynchrous operations, promises, etc.
 3. The reader should have PostMan installed on their machine. Alternatively, one can use CLI tools such as Curl, WGet etc. to make the API calls.
 4. The reader should clone this repository to their local machine before moving on to the next section.
